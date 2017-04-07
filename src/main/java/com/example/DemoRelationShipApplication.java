@@ -1,7 +1,8 @@
 package com.example;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Date;
+
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +11,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.example.OneToMany.Author;
-import com.example.OneToMany.Book;
-import com.example.OneToMany.BookCategory;
+import com.example.ManyToMany.Product;
+import com.example.ManyToMany.ProductPropertyMap;
+import com.example.ManyToMany.ProductRepo;
+import com.example.ManyToMany.Property;
+import com.example.ManyToMany.PropertyRepo;
 import com.example.OneToMany.Repo;
 
 @SpringBootApplication
@@ -23,29 +26,47 @@ public class DemoRelationShipApplication implements CommandLineRunner {
 	@Autowired
 	private Repo repo;
 
+	@Autowired
+	private ProductRepo productRepo;
+	@Autowired
+	private PropertyRepo propertyRepo;
+
 	public static void main(String[] args) {
 		SpringApplication.run(DemoRelationShipApplication.class, args);
 	}
 
 	@Override
-	public void run(String... arg0) throws Exception {
+	@Transactional
+	public void run(String... strings) throws Exception {
 
 		/* One To Many */
-		
-		BookCategory categoryA= new BookCategory("Cat A");
-		BookCategory categoryB= new BookCategory("Cat B");
-		Author authorA = new Author("Sarindy");
-		Author authorB = new Author("Channa");
-		
-		List<Book> books = new ArrayList<>();
-		books.add(new Book("book cat A",categoryA,authorA));
-		books.add(new Book("book cat B",categoryB,authorB));
-		books.add(new Book("book No Name",categoryA,authorA));
-		
-		repo.save(books);
-		
-		
-		
+
+		/*
+		 * BookCategory categoryA= new BookCategory("Cat A"); BookCategory
+		 * categoryB= new BookCategory("Cat B"); Author authorA = new
+		 * Author("Sarindy"); Author authorB = new Author("Channa");
+		 * 
+		 * List<Book> books = new ArrayList<>(); books.add(new
+		 * Book("book cat A",categoryA,authorA)); books.add(new
+		 * Book("book cat B",categoryB,authorB)); books.add(new
+		 * Book("book No Name",categoryA,authorA));
+		 * 
+		 * repo.save(books);
+		 */
+
+		/* Many To Many */
+
+		Product productA = new Product("iPhone7");
+		Property propertiesA = new Property("Bluetooth");
+
+		ProductPropertyMap proMap = new ProductPropertyMap();
+		proMap.setProduct(productA);
+		proMap.setProperty(propertiesA);
+		proMap.setModifiedDate(new Date());
+		productA.getProductPropertyMap().add(proMap);
+
+		propertyRepo.save(propertiesA);
+		productRepo.save(productA);
 
 		/*
 		 * One to one // save a couple of books List<Book> books = new
