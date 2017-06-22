@@ -56,7 +56,7 @@ public class DemoRelationShipApplication implements CommandLineRunner {
 
 		/* Many To Many */
 
-		Product productA = new Product("iPhone7");
+		/*Product productA = new Product("iPhone7");
 		Property propertiesA = new Property("Bluetooth");
 
 		ProductPropertyMap proMap = new ProductPropertyMap();
@@ -66,7 +66,7 @@ public class DemoRelationShipApplication implements CommandLineRunner {
 		productA.getProductPropertyMap().add(proMap);
 
 		propertyRepo.save(propertiesA);
-		productRepo.save(productA);
+		productRepo.save(productA);*/
 
 		/*
 		 * One to one // save a couple of books List<Book> books = new
